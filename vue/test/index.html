@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Vue.js markdown editor example</title>
+    <style type="text/css">
+		body {
+		    font-family: Helvetica Neue, Arial, sans-serif;
+		}
+
+		li.done {
+		    text-decoration: line-through;
+		}
+    </style>
+    <script src="../trunk/dist/vue.js"></script>
+  </head>
+  <body>
+
+
+	<div id="demo">
+	  <a v-on="click: onClick">Trigger a handler</a>
+	  <a v-on="click: n++">Trigger an expression</a>
+	</div>
+
+    <script>
+
+	new Vue({
+		el: '#demo',
+		data: {
+			n: 0
+		},
+		methods: {
+			onClick: function(e) {
+				console.log(e.target.tagName) // "A"
+				console.log(e.targetVM === this) // true
+			}
+		}
+	})
+
+
+	
+
+    </script>
+
+  </body>
+</html>
