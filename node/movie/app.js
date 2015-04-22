@@ -2,7 +2,9 @@ var express = require('express')
 var path = require('path')
 var port = process.env.PORT || 3000
 var app = express()
+var mongoose = require('mongoose')
 
+mongoose.connect('mongodb://localhost/aaron')
 
 app.set('views', './pages')
 app.set('view engine', 'jade')
