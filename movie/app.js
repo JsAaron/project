@@ -6,7 +6,7 @@ var _        = require('underscore')
 var mongoose = require('mongoose')
 var Movie    = require('./models/movie')
 
-mongoose.connect('mongodb ://localhost/aaron')
+mongoose.connect('mongodb://localhost/aaron')
 
 app.set('views', './pages')
 app.set('view engine', 'jade')
@@ -35,7 +35,7 @@ app.get('/movie:id', function(req, res) {
 
 
 app.get('/admin/movie', function(req, res) {
-	res.render('index', {
+	res.render('admin', {
 		title: 'imooc 后台'
 	})
 })
@@ -81,15 +81,11 @@ app.post('/admin/movie/new', function(res, req) {
 })
 
 
-
-
 app.get('/admin/list', function(req, res) {
 	res.render('index', {
 		title: 'imooc 列表'
 	})
 })
-
-
 
 
 console.log('imooc started on port ' + port)
