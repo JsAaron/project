@@ -17,12 +17,28 @@ var movieSchema = new mongoose.Schema({
 	language : String,
 	country  : String,
 	year     : Number,
-	summary  : String
+	summary  : String,
+	poster   : String
 })
 
 movieSchema.statics.findAllWithCreditCookies = function(callback){
     return this.find({ hasCreditCookie: true}, callback);
 };
+
+movieSchema.pre('save', true, function(next,done) {
+	// var err = new Error('something went wrong');
+	// next(err);
+	console.log('异步中间件')
+	next();
+	setTimeout(function(){
+		console.log('done')
+		done();
+	},1000)
+})
+
+movieSchema.post('save', function (doc) {
+  console.log('%s has been saved', doc._id);
+})
 
 
 var Movie = mongoose.model('Movie', movieSchema);
@@ -36,10 +52,12 @@ var Movie = mongoose.model('Movie', movieSchema);
 // });
 
 //通过名字查找一部电影
-Movie.findOne({year: 2018},function(err,thor){
-    if(err) return console.err(err);
-    console.dir(thor);
-});
+// Movie.findOne({
+// 	year: 2018
+// }, function(err, thor) {
+// 	if (err) return console.err(err);
+// 	console.dir(thor);
+// });
 
 //查找所有电影    
 // Movie.find(function(err,movies){
@@ -47,17 +65,20 @@ Movie.findOne({year: 2018},function(err,thor){
 //     console.dir(movies);
 // });    
 
-// var move = new Movie({
-// 	title:'机器战警',
-// 	doctor:'荷兰',
-// 	year:2018
-// })
+var move = new Movie({
+	title: '黑衣人三',
+	doctor: '美国',
+	year: 2018,
+	poster: "https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/super/whfpf=425,260,50/sign=8ccf579c063b5bb5be8273be50eee10b/b21bb051f81986189281b9b34fed2e738ad4e6c7.jpg"
+
+})
 
 
-// move.save(function (err) {
-//   if (err){
-//   	 console.log('保存失败')
-//   	 return;
-//   }
-//   console.log('meow');
-// });
+
+move.save(function (err) {
+  if (err){
+  	 console.log('保存失败')
+  	 return;
+  }
+  console.log('meow');
+});

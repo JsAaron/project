@@ -3,14 +3,14 @@ var Schema = mongoose.Schema
 var ObjectId = Schema.Types.ObjectId
 
 var MovieSchema = new Schema({
-  doctor: String,
-  title: String,
-  language: String,
-  country: String,
-  summary: String,
-  flash: String,
-  poster: String,
-  year: Number,
+  doctor   : String,
+  title    : String,
+  language : String,
+  country  : String,
+  summary  : String,
+  flash    : String,
+  poster   : String,
+  year     : Number,
   pv: {
     type: Number,
     default: 0
@@ -31,6 +31,7 @@ var MovieSchema = new Schema({
   }
 })
 
+
 // var ObjectId = mongoose.Schema.Types.ObjectId
 MovieSchema.pre('save', function(next) {
   if (this.isNew) {
@@ -38,9 +39,9 @@ MovieSchema.pre('save', function(next) {
   } else {
     this.meta.updateAt = Date.now()
   }
-
   next()
 })
+
 
 MovieSchema.statics = {
   fetch: function(cb) {

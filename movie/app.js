@@ -1,10 +1,12 @@
-var express = require('express')
-var path = require('path')
-var port = process.env.PORT || 3000
-var app = express()
+var express  = require('express')
+var path     = require('path')
+var port     = process.env.PORT || 3000
+var app      = express()
+var _        = require('underscore')
 var mongoose = require('mongoose')
+var Movie    = require('./models/movie')
 
-mongoose.connect('mongodb://localhost/aaron')
+mongoose.connect('mongodb ://localhost/aaron')
 
 app.set('views', './pages')
 app.set('view engine', 'jade')
@@ -13,32 +15,72 @@ app.use(express.static(path.join(__dirname, 'bower_components')))
 app.listen(port)
 
 app.get('/', function(req, res) {
-	res.render('index', {
-		title: 'imooc 首页',
-		movies: [{
-			title: '机器1',
-			_id: 1,
-			poster: "https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/super/whfpf=425,260,50/sign=8ccf579c063b5bb5be8273be50eee10b/b21bb051f81986189281b9b34fed2e738ad4e6c7.jpg"
-		}, {
-			title: '机器2',
-			_id: 2,
-			poster: "https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/super/whfpf=425,260,50/sign=8ccf579c063b5bb5be8273be50eee10b/b21bb051f81986189281b9b34fed2e738ad4e6c7.jpg"
-		}]
+	Movie.fetch(function(err, movies) {
+		res.render('index', {
+			title  : 'imooc 首页',
+			movies : movies
+		})
 	})
 })
-
 
 app.get('/movie:id', function(req, res) {
-	res.render('index', {
-		title: 'movie 首页'
+	var id = req.params.id;
+	Movie.findById(id,function(err,movie){
+		res.render('detail',{
+			title:'imooc' + movie.title,
+			movie:movie
+		})
 	})
 })
+
 
 app.get('/admin/movie', function(req, res) {
 	res.render('index', {
 		title: 'imooc 后台'
 	})
 })
+
+
+//admin post movie
+app.post('/admin/movie/new', function(res, req) {
+	var id = req.body.movie._id;
+	var movieObj= req.body.movie;
+	var _moive
+
+	if (id !== 'undefined') {
+		Movie.findById(id, function(err, movies) {
+			if (err) {
+				console.log(err)
+			}
+			_moive = _.extend(movie, movieObj)
+			_moive.save(function(err, movie) {
+				if (err) {
+					console.log(err)
+				}
+				res.redirect('/movie' + movie._id)
+			})
+		})
+	} else {
+		_moive = new Movie({
+			doctor   : movieObj.doctor,
+			title    : movieObj.title,
+			country  : movieObj.country,
+			language : movieObj.language,
+			year     : movieObj.year,
+			flash    : movieObj.flash,
+			summary  : movieObj.sunmmary
+		})
+
+		_moive.save(function(err,movie){
+			if(err){
+				console.log(err)
+			}
+			res.redirect('/movie/' + movie_id)
+		})
+	}
+})
+
+
 
 
 app.get('/admin/list', function(req, res) {
