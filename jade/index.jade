@@ -1,11 +1,30 @@
 doctype html
 html
 	head
-		meta
-		title imooc jade study
+		meta(charset='utf-8')
+		title #{course.toUpperCase()}
 	body
-		script
-			a = 1
+		h2 流程
+		- var imooc={a:1,b:2}
+		- for(var k in imooc)
+			p= imooc[k]	
+		- each value, key in imooc
+			p #{key}: #{value}
+		- var courses = ['a','b','c']
+		each item in courses
+			p= item
+
+		h2 转义
+		- var data='tt'
+		- var htmlData = '<script>alert(1)</script>'
+		//非转义
+		//p \!{htmlData}
+		h2 注释
+		section
+			div
+				ul
+				p
+		#id.class1(class='class2 ')
 		h1.title#title.aaa.bbb(class='title1') imooc jade study
 		#id.classname
 		a(href='',title='imooc',data-uid='1000') link
@@ -16,6 +35,16 @@ html
 			2. bb
 			<span>22</span>
 			3. c
+		p ds的说法就是打发舒服
+		p.
+			bb
+			11
+			<strong></strong>
+			cc
+		
+		style.
+			div{}
 
-
-	
+		script(tyle="text/javascrpt").
+			var a = 'jade'
+		
