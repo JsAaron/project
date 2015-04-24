@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>hell</title>
+	<script>
+	client1.on("psubscribe", function (pattern, count) {
+	    console.log("client1 psubscribed to " + pattern + ", " + count + " total subscriptions");
+	    client2.publish("channeltwo", "Me!");
+	    client3.publish("channelthree", "Me too!");
+	    client4.publish("channelfour", "And me too!");
+	});
+	</script>
+</head>
+<body>
+	<ul>
+		<li class="itme1">
+			<h2>this a title</h2>
+			<h2>this a title</h2>
+			<h2>this a title</h2>
+			<h2>this a title</h2>
+		</li>
+		<li class="itme2">
+			<h2>this a title</h2>
+		</li>
+		<li class="itme3">
+			<h2>this a title</h2>
+		</li>
+		<li class="itme4">
+			<h2>this a title</h2>
+		</li>
+		<li class="itme5">
+			<h2>this a title</h2>
+			<h2>this a title</h2>
+			<h2>this a title</h2>
+			<h2>this a title</h2>
+		</li>
+		<li class="itme6">
+			<h2>this a title</h2>
+		</li>
+		<li class="itme7">
+			<h2>this a title</h2>
+		</li>
+		<li class="itme8">
+			<h2>this a title</h2>
+		</li>
+		<li class="itme9">
+			<h2>this a title</h2>
+		</li>
+		<li class="itme10">
+			<h2>this a title</h2>
+		</li>
+	</ul>
+
+		
+</body>
+</html>
