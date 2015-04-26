@@ -36,10 +36,32 @@ app.get('/movie:id', function(req, res) {
 
 app.get('/admin/movie', function(req, res) {
 	res.render('admin', {
-		title: 'imooc 后台'
+		title: 'imooc 后台',
+		movie:{
+			title:'',
+			doctor:'',
+			country:'',
+			year:'',
+			poster:'',
+			flash:'',
+			summary:'',
+			language:'',
+		}
 	})
 })
 
+
+app.get('/admin/updade/:id', function(req, res) {
+	var id = req.params.id
+	if (id) {
+		Movie.findById(id, function(err, movie) {
+			res.render('admin', {
+				title : 'imooc 后台更新页',
+				movie : movie
+			})
+		})
+	}
+})
 
 //admin post movie
 app.post('/admin/movie/new', function(res, req) {
