@@ -14,6 +14,7 @@ app.use(express.bodyParser())
 app.use(express.static(path.join(__dirname, 'bower_components')))
 app.listen(port)
 
+//首页
 app.get('/', function(req, res) {
 	Movie.fetch(function(err, movies) {
 		res.render('index', {
@@ -23,12 +24,16 @@ app.get('/', function(req, res) {
 	})
 })
 
-app.get('/movie:id', function(req, res) {
-	var id = req.params.id;
+
+//详情页面
+app.get('/detail/:id', function(req, res) {
+	var id = req.params.id
 	Movie.findById(id,function(err,movie){
+		// console.log(movie)
+		// res.render(movie)		
 		res.render('detail',{
-			title:'imooc' + movie.title,
-			movie:movie
+			title :'imooc' + movie.title,
+			movie :movie
 		})
 	})
 })
@@ -38,14 +43,14 @@ app.get('/admin/movie', function(req, res) {
 	res.render('admin', {
 		title: 'imooc 后台',
 		movie:{
-			title:'',
-			doctor:'',
-			country:'',
-			year:'',
-			poster:'',
-			flash:'',
-			summary:'',
-			language:'',
+			title    :'',
+			doctor   :'',
+			country  :'',
+			year     :'',
+			poster   :'',
+			flash    :'',
+			summary  :'',
+			language :'',
 		}
 	})
 })
@@ -104,8 +109,17 @@ app.post('/admin/movie/new', function(res, req) {
 
 
 app.get('/admin/list', function(req, res) {
-	res.render('index', {
-		title: 'imooc 列表'
+	res.render('list', {
+		title: 'imooc 列表',
+		movies: [{
+			title    :'机器',
+			_id      :1,
+			doctor   :'机器',
+			country  :'美国',
+			year     :2014,
+			language :'机器',
+			flash    :'http://player.youku.com/player.php/sid/XNjA1Njc0NTUy/v.swf'
+		} ]
 	})
 })
 
