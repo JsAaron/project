@@ -15,7 +15,8 @@ app.set('view engine', 'jade')
 //post中间件
 app.use(express.bodyParser())
 //本地资源路径
-app.use(express.static(path.join(__dirname, 'bower_components')))
+app.use(express.static(path.join(__dirname, 'public')))
+app.locals.moment = require('moment')
 app.listen(port)
 
 //首页
@@ -79,13 +80,16 @@ app.get('/admin/update/:id', function(req, res) {
 //通过后端录过的数据
 //1 新增
 //2 更新
-app.post('/admin/input/', function(res, req) {
+app.post('/admin/input/', function(req, res) {
+	//获取表单的数据
 	var id       = req.body.movie._id;
 	var movieObj = req.body.movie;
 	var _moive
-	//更新
+	//如果隐藏表单的id存在
+	//证明是更新数据
+	//否则是新增
 	if (id !== 'undefined') {
-		Movie.findById(id, function(err, movies) {
+		Movie.findById(id, function(err, movie) {
 			if (err) {
 				console.log(err)
 			}
@@ -94,7 +98,7 @@ app.post('/admin/input/', function(res, req) {
 				if (err) {
 					console.log(err)
 				}
-				res.redirect('/detail' + movie._id)
+				res.redirect('/admin/detail/' + id)
 			})
 		})
 	} else {
@@ -113,8 +117,9 @@ app.post('/admin/input/', function(res, req) {
 			if(err){
 				console.log(err)
 			}
+			console.log('成功')
 			//数据保存成功后,定位到显示页面
-			res.redirect('/detail/' + movie_id)
+			res.redirect('/admin/detail/' + _moive._id)
 		})
 	}
 })
@@ -142,6 +147,19 @@ app.get('/admin/list', function(req, res) {
 	// })
 })
 
+//删除功能
+app.delete('/admin/list',function(req,res){
+	var id =  req.query.id
+	if(id){
+		Movie.remove({_id:id},function(err,movie){
+			if(err){
+				console.log(err)
+			}else{
+				res.json({success:1})
+			}
+		})
+	}
+})
 
 console.log('imooc started on port ' + port)
 
